@@ -5,11 +5,11 @@ $("#table-length").val(length);
 $("#table-width").val(width);
 
 document.getElementById("table-length").addEventListener("input", function () {
-    if (this.value > 25) this.value = this.value = 25;
+    if (this.value > 20) this.value = this.value = 20;
 });
 
 document.getElementById("table-width").addEventListener("input", function () {
-    if (this.value > 25) this.value = this.value = 25;
+    if (this.value > 20) this.value = this.value = 20;
 });
 
 function createBoard() {
@@ -36,7 +36,7 @@ function createBoard() {
     }
     zeroIndex = [Math.floor(numbers.indexOf(0) / length), numbers.indexOf(0) % length]
 
-    let game = [];
+    game = [];
     for (let i = 0; i < width * length; i += length) {
         game.push(numbers.slice(i, i + length));
     }
@@ -59,7 +59,13 @@ function createBoard() {
 }
 
 function updateBoard() {
-
+    for (let r = 0; r < width; r++) {
+        if (game[r].indexOf(0) != -1) {
+            zeroIndex = [game[r].indexOf(0), r]
+        }
+    }
+    console.log(zeroIndex)
 }
 
+createBoard();
 updateBoard();
