@@ -12,6 +12,7 @@ document.getElementById("table-width").addEventListener("input", function () {
     if (this.value > 20) this.value = this.value = 20;
 });
 
+
 function createBoard() {
     length = parseInt($("#table-length").val(), 10) || 5;
     width = parseInt($("#table-width").val(), 10) || 5;
@@ -52,7 +53,17 @@ function createBoard() {
                 zeroIndex = [r, c]
             }
             else {
-                e.setAttribute("onclick", `movePiece(${e})`)
+                $(e).click(function() {
+                    zeroElement = document.getElementById("zero") || null
+                    if (zeroElement != null) {
+                        zeroElement.innerText = e.innerText
+                        e.innerText = 0
+                        $(zeroElement).removeAttribute('id')
+                        $(e).attr('id', "zero")
+                        zeroElement = e
+
+                    }
+                })
             }
             row.appendChild(e);
         }
@@ -62,14 +73,6 @@ function createBoard() {
     
     localStorage.setItem('length', length)
     localStorage.setItem('width', width)
-}
-
-function movePiece(e) {
-    zeroElement = document.getElementById("zero") || null
-    if (zeroElement != null) {
-        zeroElement.innerText = e.innerText
-        e.innerText = 0
-    }
 }
 
 createBoard();
