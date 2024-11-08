@@ -40,32 +40,36 @@ function createBoard() {
     for (let i = 0; i < width * length; i += length) {
         game.push(numbers.slice(i, i + length));
     }
-
+    
     const table = document.createElement("table");
     for (let r = 0; r < width; r++) {
         const row = document.createElement("tr");
         for (let c = 0; c < length; c++) {
-            const column = document.createElement("td");
-            column.innerText = game[r][c];
-            row.appendChild(column);
+            const e = document.createElement("td");
+            e.innerText = game[r][c];
+            if (e.innerText == '0') {
+                e.setAttribute("id", "zero")
+                zeroIndex = [r, c]
+            }
+            else {
+                e.setAttribute("onclick", `movePiece(${e})`)
+            }
+            row.appendChild(e);
         }
         table.appendChild(row);
     }
-    
     container.appendChild(table);
     
     localStorage.setItem('length', length)
     localStorage.setItem('width', width)
 }
 
-function updateBoard() {
-    for (let r = 0; r < width; r++) {
-        if (game[r].indexOf(0) != -1) {
-            zeroIndex = [game[r].indexOf(0), r]
-        }
+function movePiece(e) {
+    zeroElement = document.getElementById("zero") || null
+    if (zeroElement != null) {
+        zeroElement.innerText = e.innerText
+        e.innerText = 0
     }
-    console.log(zeroIndex)
 }
 
 createBoard();
-updateBoard();
