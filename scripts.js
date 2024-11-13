@@ -52,19 +52,30 @@ function createBoard() {
                 e.setAttribute("id", "zero")
                 zeroIndex = [r, c]
             }
-            else {
-                $(e).click(function() {
-                    zeroElement = document.getElementById("zero") || null
-                    if (zeroElement != null) {
+            e.setAttribute('location', [r,c])
+            $(e).click(function() {
+                zeroElement = document.getElementById("zero") || null
+                if (zeroElement != null) {
+                    eLoc = e.getAttribute('location').split(',').map(n => parseInt(n))
+                    console.log(eLoc)
+                    console.log(zeroIndex)
+                    console.log((Math.abs(eLoc[0] - zeroIndex[0]) == 1 && eLoc[1] == zeroIndex[1]) || 
+                                (Math.abs(eLoc[1] - zeroIndex[1]) == 1 && eLoc[0] == zeroIndex[0]))
+                    if ((Math.abs(eLoc[0] - zeroIndex[0]) == 1 && eLoc[1] == zeroIndex[1]) || 
+                        (Math.abs(eLoc[1] - zeroIndex[1]) == 1 && eLoc[0] == zeroIndex[0])) {   
                         zeroElement.innerText = e.innerText
                         e.innerText = 0
-                        $(zeroElement).removeAttribute('id')
-                        $(e).attr('id', "zero")
-                        zeroElement = e
 
+                        zeroElement.setAttribute('location', eLoc)
+                        zeroElement.removeAttribute('id')
+                        e.setAttribute('id', 'zero')
+                        e.setAttribute('location', zeroIndex)
+
+                        zeroIndex = eLoc
                     }
-                })
-            }
+                }
+            })
+            
             row.appendChild(e);
         }
         table.appendChild(row);
